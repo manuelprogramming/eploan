@@ -86,8 +86,3 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-## Contact
-
-Your Name - your_email@example.com
-
-Project Link: [https://github.com/username/eploan](https://github.com/username/eploan) 
