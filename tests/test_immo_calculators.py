@@ -28,4 +28,6 @@ house_props = {
 )
 def test_calc_property_by_repayment_rate(interest_rate: float, repayment_rate: float):
     immo = calculators.calc_property_by_repayment_rate(house_props, interest_rate, repayment_rate)
+    assert immo.mortgage.interest_rate == interest_rate
+    assert immo.mortgage.repayment_rate == repayment_rate
     
