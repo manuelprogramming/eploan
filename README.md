@@ -5,14 +5,14 @@ A Python package for loan-related calculations and analysis.
 ## Description
 
 EPLoan - Real Estate Investment & Loan Calculator
-A Python package for comprehensive real estate investment analysis and loan calculations. EPLoan provides tools for property investment evaluation, mortgage calculations, cash flow analysis, and tax computations. Features include loan period calculations, annuity computations, repayment rate analysis, and property investment decision support with detailed financial modeling capabilities.
-Key Features:
-🏠 Property investment analysis and evaluation
-💰 Mortgage and loan calculations (annuity, repayment rates, periods)
-�� Cash flow analysis and property cost modeling
-🧮 Compound interest calculations and financial projections
-📈 Tax rate calculations for property investments
-🔧 Flexible installment and payment plan options
+A Python package for comprehensive real estate investment analysis and loan calculations. EPLoan provides tools for property investment evaluation, mortgage calculations, cash flow analysis, and tax computations. Features include loan period calculations, annuity computations, repayment rate analysis, and property investment decision support with detailed financial modeling capabilities. <br>
+Key Features: <br>
+🏠 Property investment analysis and evaluation <br>
+💰 Mortgage and loan calculations (annuity, repayment rates, periods) <br>
+�� Cash flow analysis and property cost modeling<br>
+🧮 Compound interest calculations and financial projections<br>
+📈 Tax rate calculations for property investments<br>
+🔧 Flexible installment and payment plan options<br>
 Perfect for: Real estate investors, financial analysts, mortgage brokers, and anyone needing sophisticated property investment calculations.
 ## Installation
 
