@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import Self
 import pandas as pd
 import pickle
 
@@ -52,25 +53,19 @@ class Immo:
     @property
     def multiplication_factor(self) -> int:
         """How much periods you need to pay back the house"""
-        return self.base_cost.total // self.cash_flow.net_annually
+        return int(self.base_cost.total // self.cash_flow.net_annually)
 
     def ten_year_net_capital_gain(self) -> int:
         """how much money you get gross out"""
-        if self.cash_flow.net_annually - self.mortgage.annuity <= 0:
-            return round(
-                self.base_cost.price
-                - self.base_cost.proprietary_capital
-                - self.mortgage.rest_dept_by_period(10),
-                2,
-            ) + 10 * (self.cash_flow.net_annually - self.mortgage.annuity)
-
+        #if self.cash_flow.net_annually - self.mortgage.annuity <= 0:
         period = 10 if self.mortgage.period >= 10 else self.mortgage.period
         return round(
             self.base_cost.price
             - self.base_cost.proprietary_capital
             - self.mortgage.rest_dept_by_period(period),
             2,
-        )
+        ) + period * (self.cash_flow.net_annually - self.mortgage.annuity)
+
 
     def ten_year_roe(self) -> float:
         if self.base_cost.proprietary_capital == 0:
@@ -106,7 +101,7 @@ class Immo:
                 round(self.ten_year_net_capital_gain(), 2),
                 round(self.ten_year_roe() * 100, 2),
             ],
-            index=[
+            index=[  # pyright: ignore[reportArgumentType]
                 "Gross Rental Yield",
                 "Net Rental Yield",
                 "Multiplication Factor",
@@ -134,7 +129,7 @@ class Immo:
 
         return json.dumps(self.to_dict())
 
-    def pickle(self) -> bytes:
+    def pickle(self) -> str:
         return pickle.dumps(self, 0).decode("ascii")
 
     def set_price(self, price: float) -> None:
@@ -231,7 +226,7 @@ class Immo:
     def set_rent_per_sqm(self, value: float) -> None:
         self.set_net_cold_rent_monthly(value * self.details.living_space)
 
-    def update(self, card: str, field: str, attribute: str, value: float) -> None:
+    def update(self, card: str, field: str, attribute: str, value: float) -> Self:
         attr_map = {
             ("base_cost", "price", "total"): "set_price",
             ("base_cost", "agent", "total"): "set_agent",
@@ -291,7 +286,7 @@ class Immo:
         return self
 
 
-def depickle(b_immo: bytes) -> Immo:
+def depickle(b_immo: str) -> Immo:
     cur_immo = pickle.loads(b_immo.encode("ascii"))
     if not isinstance(cur_immo, Immo):
         raise TypeError("decoding has the wrong instance")
