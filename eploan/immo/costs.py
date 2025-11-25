@@ -13,7 +13,7 @@ log = logging.getLogger(__name__)
 @dataclass
 class BaseCost:
     price: float
-
+    modernisation: float = 0
     property_buy_tax_rate: float = field(default_factory=property_buy_tax.median)
     agent_rate: float = 0.0357
 
@@ -54,11 +54,11 @@ class BaseCost:
 
     @property
     def total(self) -> float:
-        return round(self.price + self.extras, 2)
+        return round(self.price + self.modernisation + self.extras, 2)
 
     @property
     def proprietary_capital(self) -> float:
-        return round(self.proprietary_capital_rate * self.total, 2)
+        return round(self.total * self.proprietary_capital_rate, 2)
 
     @property
     def loan(self) -> float:
@@ -66,6 +66,11 @@ class BaseCost:
 
     def set_price(self, price: float) -> None:
         self.price = price
+
+    def set_modernisation(self, amount: float) -> None:
+        if amount < 0:
+            amount = 0
+        self.modernisation = amount
 
     def set_property_buy_tax(self, amount: float) -> None:
         if amount < 0:
@@ -168,6 +173,7 @@ class BaseCost:
             data={
                 "Total": [
                     self.price,
+                    self.modernisation,
                     self.extras,
                     self.land_registry,
                     self.notary,
@@ -178,6 +184,7 @@ class BaseCost:
                     self.loan,
                 ],
                 "Rate": [
+                    None,
                     None,
                     self.extras_rate,
                     self.land_registry_rate,
@@ -191,6 +198,7 @@ class BaseCost:
             },
             index=[
                 "Price",
+                "Modernisation",
                 "Extra Cost",
                 "Land Registry",
                 "Notary",

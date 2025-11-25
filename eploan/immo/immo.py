@@ -61,6 +61,7 @@ class Immo:
         period = 10 if self.mortgage.period >= 10 else self.mortgage.period
         return round(
             self.base_cost.price
+            + self.base_cost.modernisation
             - self.base_cost.proprietary_capital
             - self.mortgage.rest_dept_by_period(period),
             2,
@@ -135,6 +136,9 @@ class Immo:
     def set_price(self, price: float) -> None:
         self.base_cost.set_price(price)
         self.mortgage.amount = self.base_cost.loan
+
+    def set_modernisation(self, value: float) -> None:
+        self.base_cost.set_modernisation(value)
 
     def set_agent(self, value: float) -> None:
         self.base_cost.set_agent(value)
@@ -229,6 +233,7 @@ class Immo:
     def update(self, card: str, field: str, attribute: str, value: float) -> Self:
         attr_map = {
             ("base_cost", "price", "total"): "set_price",
+            ("base_cost", "modernisation", "total"): "set_modernisation",
             ("base_cost", "agent", "total"): "set_agent",
             ("base_cost", "agent", "rate"): "set_agent_rate",
             ("base_cost", "property buy tax", "total"): "set_property_buy_tax",

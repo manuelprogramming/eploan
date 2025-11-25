@@ -10,6 +10,7 @@ def default_basecost() -> immo.BaseCost:
 
 def test_default_values(default_basecost: immo.BaseCost):
     assert default_basecost.price == 100000
+    assert default_basecost.modernisation == 0
     assert default_basecost.property_buy_tax_rate == 0.055
     assert default_basecost.agent_rate == 0.0357
     assert default_basecost.notary_rate == 0.015
@@ -170,3 +171,16 @@ def test_set_proprietary_capital(
             default_basecost.proprietary_capital_rate
             == proprietary_capital / default_basecost.total
         )
+
+@pytest.mark.parametrize("modernisation", [-500, 0, 5_000, 1_000_000])
+def test_set_modernisation(default_basecost: immo.BaseCost, modernisation: float):
+    default_basecost.set_modernisation(modernisation)
+
+    if modernisation < 0:
+        assert default_basecost.modernisation == 0
+    else:
+        assert default_basecost.modernisation == modernisation
+    
+def test_total(default_basecost: immo.BaseCost):
+    default_basecost.set_modernisation(10_000)
+    assert default_basecost.total == default_basecost.price + default_basecost.modernisation + default_basecost.extras
